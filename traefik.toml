@@ -7,14 +7,14 @@
 # Optional
 # Default: false
 #
-# debug = true
+debug = true
 
 # Log level
 #
 # Optional
 # Default: "ERROR"
 #
-# logLevel = "ERROR"
+logLevel = "DEBUG"
 
 # Entrypoints to be used by frontends that do not specify any entrypoint.
 # Each frontend can specify its own entrypoints.
@@ -31,6 +31,7 @@
 [entryPoints]
     [entryPoints.http]
     address = ":80"
+    # TODO: For https see sample in https://docs.traefik.io/basics/#frontends
 
 # Traefik logs
 # Enabled by default and log to stdout
@@ -60,7 +61,7 @@
 #
 # Optional
 #
-# [accessLog]
+[accessLog]
 
 # Sets the file path for the access log. If not specified, stdout will be used.
 # Intermediate directories are created if necessary.
@@ -76,6 +77,37 @@
 # Default: "common"
 #
 # format = "common"
+
+################################################################
+# Frontends definition
+################################################################
+
+# See https://github.com/containous/traefik/issues/682
+[file]
+
+  [frontends]
+    [frontends.frontend1]
+    backend = "jenkins1"
+      [frontends.frontend1.routes.test_1]
+      rule = "PathStrip: /jenkins/"
+    # [frontends.frontend2]
+    # backend = "backend1"
+    # passHostHeader = true
+    # passTLSCert = true
+    # priority = 10
+    # entrypoints = ["https"] # overrides defaultEntryPoints
+    #   [frontends.frontend2.routes.test_1]
+    #   rule = "HostRegexp:localhost,{subdomain:[a-z]+}.localhost"
+    # [frontends.frontend3]
+    # backend = "backend2"
+    #   [frontends.frontend3.routes.test_1]
+    #   rule = "Host:test3.localhost;Path:/test"
+
+
+  [backends]
+    [backends.jenkins1]
+      [backends.jenkins1.servers.server1]
+      url = "http://192.168.99.100:9080"
 
 ################################################################
 # Web configuration backend
@@ -95,7 +127,7 @@ address = ":8080"
 ################################################################
 
 # Enable Docker configuration backend
-[docker]
+# [docker]
 
 # Docker server endpoint. Can be a tcp or a unix socket endpoint.
 #
