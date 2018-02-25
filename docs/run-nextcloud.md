@@ -1,6 +1,6 @@
 # Running NextCloud in a Docker container
 
-Sample command for running NextCloud in a Docker container using an external SQLite database
+Sample command for running [NextCloud](https://nextcloud.com/) in a Docker container using an external SQLite database
 
 ```
 docker run -d -p 8088:80 \
@@ -11,8 +11,8 @@ docker run -d -p 8088:80 \
 
 NextCloud will listen at <http://localhost:8088> using an Apache webserver.
 
-Contributor: @xrmx
+Contributor: [@xrmx](https://github.com/xrmx)
 
-Reference: NextCloud documentation
+Reference: [NextCloud documentation](https://docs.nextcloud.com/)
 
 <!-- EOF -->
