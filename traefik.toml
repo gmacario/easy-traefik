@@ -90,6 +90,10 @@ logLevel = "DEBUG"
     backend = "jenkins1"
       [frontends.frontend1.routes.test_1]
       rule = "PathStrip: /jenkins/"
+    [frontends.frontend2]
+    backend = "solarma"
+      [frontends.frontend2.routes.test_2]
+      rule = "PathStrip: /solarma/"
     # [frontends.frontend2]
     # backend = "backend1"
     # passHostHeader = true
@@ -108,6 +112,9 @@ logLevel = "DEBUG"
     [backends.jenkins1]
       [backends.jenkins1.servers.server1]
       url = "http://192.168.99.100:9080"
+    [backends.solarma]
+      [backends.solarma.servers.server1]
+      url = "http://www.solarma.it/"
 
 ################################################################
 # Web configuration backend
