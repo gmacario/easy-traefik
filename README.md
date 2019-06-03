@@ -20,8 +20,12 @@ For the moment the IP address and port of the redirected service are hardcoded -
 
 ### Running
 
-```
-docker run -d -p 8080:8080 -p 80:80 \
+```bash
+cd ~/github/gmacario/easy-traefik
+touch acme.json && chmod 600 acme.json
+docker run -d --restart always \
+    -p 8080:8080 -p 80:80 -p 443:443 \
+    -v $PWD/acme.json:/acme.json \
     -v $PWD/traefik.toml:/etc/traefik/traefik.toml \
     -v /var/run/docker.sock:/var/run/docker.sock \
     traefik
