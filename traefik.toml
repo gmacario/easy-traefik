@@ -21,8 +21,8 @@ logLevel = "DEBUG"
 #
 # Optional
 # Default: ["http"]
-#
-# defaultEntryPoints = ["http", "https"]
+
+defaultEntryPoints = ["http", "https"]
 
 # Entrypoints definition
 #
@@ -30,8 +30,19 @@ logLevel = "DEBUG"
 # Default:
 [entryPoints]
     [entryPoints.http]
-    address = ":80"
-    # TODO: For https see sample in https://docs.traefik.io/basics/#frontends
+      address = ":80"
+    [entryPoints.https]
+      address = ":443"
+      [entryPoints.https.tls]
+#   [entryPoints.dashboard]
+#     address = ":8080"
+#     [entryPoints.dashboard.auth.basic]
+#       users = ["admin:your_encrypted_password"]
+
+# TODO: For https see sample in https://docs.traefik.io/basics/#frontends
+
+# [api]
+# entrypoint="dashboard"
 
 # Traefik logs
 # Enabled by default and log to stdout
@@ -78,6 +89,14 @@ logLevel = "DEBUG"
 #
 # format = "common"
 
+[acme]
+email = "gmacario@gmail.com"
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+  [acme.httpChallenge]
+  entryPoint = "http"
+
 ################################################################
 # Frontends definition
 ################################################################
@@ -85,42 +104,76 @@ logLevel = "DEBUG"
 # See https://github.com/containous/traefik/issues/682
 [file]
 
-  [frontends]
-    [frontends.frontend1]
-    backend = "jenkins1"
-      [frontends.frontend1.routes.test_1]
-      rule = "PathStrip: /jenkins/"
-    # [frontends.frontend2]
-    # backend = "backend1"
-    # passHostHeader = true
-    # passTLSCert = true
-    # priority = 10
-    # entrypoints = ["https"] # overrides defaultEntryPoints
-    #   [frontends.frontend2.routes.test_1]
-    #   rule = "HostRegexp:localhost,{subdomain:[a-z]+}.localhost"
-    # [frontends.frontend3]
-    # backend = "backend2"
-    #   [frontends.frontend3.routes.test_1]
-    #   rule = "Host:test3.localhost;Path:/test"
+  watch = true
+  filename = "/etc/traefik/traefik.toml"
 
-
-  [backends]
+[backends]
     [backends.jenkins1]
       [backends.jenkins1.servers.server1]
-      url = "http://192.168.99.100:9080"
+      url = "http://gmpowerhorse.gmacario.it:9080/"
+    [backends.ardyungm33]
+      [backends.ardyungm33.servers.server1]
+      url = "http://10.23.3.33/"
+   [backends.omnia1]
+      [backends.omnia1.servers.server1]
+      url = "http://gmhome.solarma.it:1080/"
+#  [backends.nextcloud1]
+#     [backends.nextcloud1.servers.server1]
+#     url = "http://gmhome.solarma.it:1080/nextcloud/"
+
+[frontends]
+  [frontends.jenkins1]
+    backend = "jenkins1"
+      [frontends.jenkins1.routes.test_1]
+      # rule = "PathStrip: /jenkins/"
+      rule = "Host: jenkins.solarma.it"
+  [frontends.ardyungm33]
+    backend = "ardyungm33"
+      [frontends.ardyungm33.routes.test_1]
+      # rule = "PathStrip: /ardyungm33/"
+      rule = "Host: ardyungm33.solarma.it"
+  [frontends.omnia1]
+    backend = "omnia1"
+      [frontends.omnia1.routes.test_1]
+      # rule = "PathStrip: /omnia/"
+      rule = "Host: omnia-gmhome.solarma.it"
+# [frontends.nextcloud1]
+#   backend = "nextcloud1"
+#     [frontends.nextcloud1.routes.test_1]
+#     rule = "Host: nextcloud.solarma.it"
+#     # rule = "PathStrip: /nextcloud/"
+
+ # [frontends.frontend2]
+ # backend = "backend1"
+ # passHostHeader = true
+ # passTLSCert = true
+ # priority = 10
+ # entrypoints = ["https"] # overrides defaultEntryPoints
+ #   [frontends.frontend2.routes.test_1]
+ #   rule = "HostRegexp:localhost,{subdomain:[a-z]+}.localhost"
+ # [frontends.frontend3]
+ # backend = "backend2"
+ #   [frontends.frontend3.routes.test_1]
+ #   rule = "Host:test3.localhost;Path:/test"
+
 
 ################################################################
 # Web configuration backend
 ################################################################
+ 
+# # Enable web configuration backend
+# [web]
+#  
+# # Web administration port
+# #
+# # Required
+# #
+# address = ":8080"
 
-# Enable web configuration backend
-[web]
-
-# Web administration port
-#
-# Required
-#
-address = ":8080"
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  address = ":8080"
 
 ################################################################
 # Docker configuration backend
@@ -150,3 +203,5 @@ address = ":8080"
 # Default: true
 #
 # exposedbydefault = true
+
+# EOF
