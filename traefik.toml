@@ -108,40 +108,40 @@ onHostRule = true
   filename = "/etc/traefik/traefik.toml"
 
 [backends]
-    [backends.jenkins1]
-      [backends.jenkins1.servers.server1]
-      url = "http://gmpowerhorse.gmacario.it:9080/"
-    [backends.ardyungm33]
+   [backends.ardyungm33]
       [backends.ardyungm33.servers.server1]
       url = "http://10.23.3.33/"
+   [backends.jenkins1]
+      [backends.jenkins1.servers.server1]
+      url = "http://192.168.64.62:9080/"
    [backends.omnia1]
       [backends.omnia1.servers.server1]
-      url = "http://gmhome.solarma.it:1080/"
-#  [backends.nextcloud1]
-#     [backends.nextcloud1.servers.server1]
-#     url = "http://gmhome.solarma.it:1080/nextcloud/"
+      url = "http://192.168.1.65:1080/"
+   [backends.nextcloud1]
+      [backends.nextcloud1.servers.server1]
+      url = "http://192.168.1.65:1080/nextcloud/"
 
 [frontends]
-  [frontends.jenkins1]
-    backend = "jenkins1"
-      [frontends.jenkins1.routes.test_1]
-      # rule = "PathStrip: /jenkins/"
-      rule = "Host: jenkins.solarma.it"
   [frontends.ardyungm33]
     backend = "ardyungm33"
       [frontends.ardyungm33.routes.test_1]
       # rule = "PathStrip: /ardyungm33/"
       rule = "Host: ardyungm33.solarma.it"
+  [frontends.jenkins1]
+    backend = "jenkins1"
+      [frontends.jenkins1.routes.test_1]
+      # rule = "PathStrip: /jenkins/"
+      rule = "Host: jenkins.solarma.it"
   [frontends.omnia1]
     backend = "omnia1"
       [frontends.omnia1.routes.test_1]
       # rule = "PathStrip: /omnia/"
       rule = "Host: omnia-gmhome.solarma.it"
-# [frontends.nextcloud1]
-#   backend = "nextcloud1"
-#     [frontends.nextcloud1.routes.test_1]
-#     rule = "Host: nextcloud.solarma.it"
-#     # rule = "PathStrip: /nextcloud/"
+  [frontends.nextcloud1]
+    backend = "nextcloud1"
+      [frontends.nextcloud1.routes.test_1]
+      rule = "Host: nextcloud.solarma.it"
+      # rule = "PathStrip: /nextcloud/"
 
  # [frontends.frontend2]
  # backend = "backend1"
