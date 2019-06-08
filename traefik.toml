@@ -120,6 +120,9 @@ onHostRule = true
    [backends.nextcloud1]
       [backends.nextcloud1.servers.server1]
       url = "http://192.168.1.65:1080/nextcloud/"
+   [backends.nextcloud2]
+      [backends.nextcloud2.servers.server1]
+      url = "http://10.23.3.27:8080/"
 
 [frontends]
   [frontends.ardyungm33]
@@ -142,6 +145,10 @@ onHostRule = true
       [frontends.nextcloud1.routes.test_1]
       rule = "Host: nextcloud.solarma.it"
       # rule = "PathStrip: /nextcloud/"
+  [frontends.nextcloud2]
+    backend = "nextcloud2"
+      [frontends.nextcloud2.routes.test_1]
+      rule = "Host: nextcloud2.solarma.it"
 
  # [frontends.frontend2]
  # backend = "backend1"
